@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-'''
-    This module contains variables and methods used to connect to API
-'''
+""" app.py - app module """
 from flask import Flask, Blueprint, jsonify
 from api.v1.views import app_views
 from models import storage
@@ -18,17 +16,13 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 @app.teardown_appcontext
 def teardown_app(code):
-    '''
-        Handles teardown
-    '''
+    """ teardown_app - closes storage """
     storage.close()
 
 
 @app.errorhandler(404)
 def page_not_found(error):
-    '''
-        Returns a JSON-formatted error response
-    '''
+    """ page_not_found - handles 404 error """
     return jsonify({"error": "Not found"}), 404
 
 

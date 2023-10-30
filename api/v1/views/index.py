@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" returns json statuses for app_views routes  """
+""" index.py - index module """
 from api.v1.views import app_views
 from flask import jsonify
 from models import storage
@@ -7,13 +7,13 @@ from models import storage
 
 @app_views.route('/status', strict_slashes=False)
 def stat_return():
-    """ return json status: OK """
+    """ endpoint that returns the status of the API """
     return jsonify({"status": "OK"})
 
 
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def stat_count():
-    """ endpoint that retrieves the # of each objects by type """
+    """ endpoint that retrieves the number of each objects by type """
     count_stats = {
         'amenities': storage.count('Amenity'),
         'cities': storage.count('City'),
