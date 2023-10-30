@@ -1,29 +1,37 @@
 #!/usr/bin/python3
-""" index.py - index module """
+"""define routes of blueprint
+"""
+
 from api.v1.views import app_views
-from flask import jsonify
 from models import storage
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+from models.user import User
 
 
-@app_views.route('/status', strict_slashes=False)
-def stat_return():
-    """ endpoint that returns the status of the API """
-    return jsonify({"status": "OK"})
-
-
-@app_views.route('/stats', methods=['GET'], strict_slashes=False)
-def stat_count():
-    """ endpoint that retrieves the number of each objects by type """
-    count_stats = {
-        'amenities': storage.count('Amenity'),
-        'cities': storage.count('City'),
-        'places': storage.count('Place'),
-        'reviews': storage.count('Review'),
-        'states': storage.count('State'),
-        'users': storage.count('User')
+@app_views.route("/status", strict_slashes=False, methods=["GET"])
+def status():
+    return {
+        "status": "OK",
     }
-    return jsonify(count_stats)
 
 
-if __name__ == "__main__":
-    pass
+@app_views.route("/stats", strict_slashes=False, methods=["GET"])
+def stats():
+    amenities = storage.count(Amenity)
+    cities = storage.count(City)
+    places = storage.count(Place)
+    reviews = storage.count(Review)
+    states = storage.count(State)
+    users = storage.count(User)
+    return {
+        "amenities": amenities,
+        "cities": cities,
+        "places": places,
+        "reviews": reviews,
+        "states": states,
+        "users": users,
+    }
